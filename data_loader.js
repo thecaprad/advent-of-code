@@ -1,4 +1,4 @@
-import * as solutions from '../day_1/day_1.js';
+import * as solutions from '../day_2/day_2.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     var run = document.getElementById('run');
