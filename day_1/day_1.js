@@ -1,3 +1,11 @@
+export function normalizeData(data) {
+    var result = data.map(function(d) {
+        return parseInt(d, 10)
+    });
+    // [201, 208, 204, etc.]
+    return result;
+}
+
 export function solutionA(data) {
     var result = 0;
     for (let i = 0; i <= data.length; i++) {

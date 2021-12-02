@@ -1,4 +1,4 @@
-import { solutionA, solutionB } from '../day_1/day_1.js';
+import * as solutions from '../day_1/day_1.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     var run = document.getElementById('run');
@@ -10,12 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let fileReader = new FileReader();
         fileReader.readAsText(file);
         fileReader.onload = function() {
-            let data = fileReader.result.split('\n').map(function(d) {
-                return parseInt(d, 10)
-            });
+            // Normalize data for solution.
+            let data = solutions.normalizeData(fileReader.result.split('\n'));
             // Load solutions.
-            console.log(solutionA(data));
-            console.log(solutionB(data));
+            console.log(solutions.solutionA(data));
+            console.log(solutions.solutionB(data));
         }
     })
 })
