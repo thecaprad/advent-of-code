@@ -49,6 +49,27 @@ function convertBinaryArrayToString(list, inputLength) {
     return result;
 }
 
+function getMatchingBitNumbers(input, pos, mostCommonBinaries) {
+    var result = [];
+    for (let i = 0; i < input.length; i++) {
+        if (input[i][pos] == mostCommonBinaries[pos]) {
+            result.push(input[i]);
+        }
+    }
+    return result;
+}
+
+function getCorrectFinalSelection(listOfTwo, pos, o2 = true) {
+    if (listOfTwo.length == 1) {
+        return listOfTwo[0];
+    }
+    if (o2) {
+        return listOfTwo[0][pos] == 1 ? listOfTwo[0] : listOfTwo[1];
+    } else {
+        return listOfTwo[0][pos] == 0 ? listOfTwo[0] : listOfTwo[1];
+    }
+}
+
 export function solutionA(data) {
     var binaryColumnSums = getColumnSums(data);
     var rawGamaByte = calculateMostCommonBinary(binaryColumnSums, data.length, false);
@@ -56,4 +77,28 @@ export function solutionA(data) {
     var gamaBinaryString = convertBinaryArrayToString(rawGamaByte, data.length);
     var epsilonBinaryString = convertBinaryArrayToString(rawEpsilonByte, data.length);
     return parseInt(gamaBinaryString, 2) * parseInt(epsilonBinaryString, 2);
+}
+
+export function solutionB(data) {
+    // O2 rating.
+    var considerThese = data;
+    var pos = 0;
+    while (considerThese.length > 2) {
+        var binaryColumnSums = getColumnSums(considerThese);
+        var mostCommonBinaries = calculateMostCommonBinary(binaryColumnSums, considerThese.length, false);
+        considerThese = getMatchingBitNumbers(considerThese, pos, mostCommonBinaries);
+        pos++;
+    };
+    var oxygenRatingBinaryString = convertBinaryArrayToString(getCorrectFinalSelection(considerThese, pos));
+    // // CO2 rating.
+    var considerThese = data;
+    var pos = 0;
+    while (considerThese.length > 2) {
+        var binaryColumnSums = getColumnSums(considerThese);
+        var leastCommonBinaries = calculateMostCommonBinary(binaryColumnSums, considerThese.length, true);
+        considerThese = getMatchingBitNumbers(considerThese, pos, leastCommonBinaries);
+        pos++;
+    };
+    var co2RatingBinaryString = convertBinaryArrayToString(getCorrectFinalSelection(considerThese, pos, false));
+    return parseInt(oxygenRatingBinaryString, 2) * parseInt(co2RatingBinaryString, 2);
 }
